@@ -15,7 +15,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 
-import {Outlet} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 
 const drawerWidth = 240;
 const navItems = ['All Books', 'Sign In', 'Sign Up'];
@@ -129,11 +129,15 @@ const Navbar = () => {
                             >
                                 <Grid item>
                                     <Box>
-                                        {navItems.map((item) => (
-                                            <Button size={'large'} key={item} sx={{color: '#fff', pl: 2}}>
-                                                {item}
-                                            </Button>
-                                        ))}
+                                        <Button size={'large'}>
+                                            <Link style={{textDecoration: 'none', color: '#fff'}} to='/'>All Books</Link>
+                                        </Button>
+                                        <Button size={'large'}>
+                                            <Link style={{textDecoration: 'none', color: '#fff'}} to='/signin'>Sign In</Link>
+                                        </Button>
+                                        <Button size={'large'}>
+                                            <Link style={{textDecoration: 'none', color: '#fff'}} to='/signup'>Sign Up</Link>
+                                        </Button>
                                     </Box>
                                 </Grid>
                             </Grid>
