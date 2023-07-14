@@ -29,7 +29,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 const AddBook = ({open, handleClose}: IProps) => {
     const [bookData, setBookData] = useState({
-        titl: "",
+        title: "",
         author: "",
         genre: "",
         bookCoverLink: "",
