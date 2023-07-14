@@ -16,6 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 
 import {Link, Outlet} from "react-router-dom";
+import AddBook from "./AddBook.tsx";
 
 const drawerWidth = 240;
 const navItems = ['All Books', 'Sign In', 'Sign Up'];
@@ -62,6 +63,9 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 }));
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+    const [open, setOpen] = useState(false);
+    const handleOpenModal = () => setOpen(true);
+    const handleCloseModal = () => setOpen(false);
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
@@ -132,9 +136,10 @@ const Navbar = () => {
                                         <Button size={'large'}>
                                             <Link style={{textDecoration: 'none', color: '#fff'}} to='/'>All Books</Link>
                                         </Button>
-                                        <Button size={'large'}>
-                                            <Link style={{textDecoration: 'none', color: '#fff'}} to='/'>Add New Book</Link>
+                                        <Button sx={{color:'#fff'}} size={'large'} onClick={handleOpenModal}>
+                                            Add New Book
                                         </Button>
+                                            <AddBook open={open} handleClose={handleCloseModal}/>
                                         <Button size={'large'}>
                                             <Link style={{textDecoration: 'none', color: '#fff'}} to='/signin'>Sign In</Link>
                                         </Button>
