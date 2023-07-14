@@ -1,4 +1,4 @@
-import {CircularProgress, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 import SingleCard from "./Card.tsx";
 import {useGetAllBooksQuery} from "../redux/features/books/booksApi.ts";
 import {IBook} from "../types/book.ts";
