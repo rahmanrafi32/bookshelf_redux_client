@@ -69,7 +69,7 @@ const Navbar = () => {
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
             <Typography variant="h6" sx={{my: 2}}>
-                MUI
+                BookShelf
             </Typography>
             <Divider/>
             <List>
@@ -86,7 +86,7 @@ const Navbar = () => {
     return (
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
-            <AppBar component="nav">
+            <AppBar component="nav" position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Toolbar>
                     <Grid container
                           direction="row"
@@ -133,6 +133,9 @@ const Navbar = () => {
                                             <Link style={{textDecoration: 'none', color: '#fff'}} to='/'>All Books</Link>
                                         </Button>
                                         <Button size={'large'}>
+                                            <Link style={{textDecoration: 'none', color: '#fff'}} to='/'>Add New Book</Link>
+                                        </Button>
+                                        <Button size={'large'}>
                                             <Link style={{textDecoration: 'none', color: '#fff'}} to='/signin'>Sign In</Link>
                                         </Button>
                                         <Button size={'large'}>
@@ -151,7 +154,7 @@ const Navbar = () => {
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
                     ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
+                        keepMounted: true,
                     }}
                     sx={{
                         display: {xs: 'block', sm: 'none'},
