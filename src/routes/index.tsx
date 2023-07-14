@@ -3,6 +3,7 @@ import {createBrowserRouter} from "react-router-dom";
 import Home from "../pages/Home.tsx";
 import Signup from "../pages/Signup.tsx";
 import Signin from "../pages/Signin.tsx";
+import BookDetails from "../pages/BookDetails.tsx";
 
 const routes = createBrowserRouter([
     {
@@ -12,6 +13,10 @@ const routes = createBrowserRouter([
             {
                 index: true,
                 element: <Home/>
+            },
+            {
+                path: '/book-details/:id',
+                element: <BookDetails/>
             },
         ],
     },
