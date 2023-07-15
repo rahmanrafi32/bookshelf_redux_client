@@ -23,7 +23,6 @@ const Signin = () => {
 
   const handleLogin = async () => {
     await login(loginData);
-    console.log(loginData.username);
     dispatch(setUser(loginData.username));
     navigate('/');
   };
