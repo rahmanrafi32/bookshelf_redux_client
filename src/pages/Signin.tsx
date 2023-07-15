@@ -66,6 +66,7 @@ const Signin = () => {
                 onChange={(e) => handleFieldChange('username', e.target.value)}
               />
               <TextField
+                type={'password'}
                 value={loginData.password}
                 fullWidth
                 label={'Password'}

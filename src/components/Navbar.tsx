@@ -22,7 +22,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { Link, Outlet } from 'react-router-dom';
-import AddBook from './AddBook.tsx';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks.ts';
 import { logout } from '../redux/features/user/userSlice.ts';
 
@@ -71,9 +70,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
-  const [open, setOpen] = useState(false);
-  const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -160,15 +156,15 @@ const Navbar = () => {
                       </Link>
                     </Button>
                     {username ? (
-                      <Button
-                        sx={{ color: '#fff' }}
-                        size={'large'}
-                        onClick={handleOpenModal}
-                      >
-                        Add New Book
+                      <Button sx={{ color: '#fff' }} size={'large'}>
+                        <Link
+                          style={{ textDecoration: 'none', color: '#fff' }}
+                          to={'/add-new-book'}
+                        >
+                          Add New Book
+                        </Link>
                       </Button>
                     ) : null}
-                    <AddBook open={open} handleClose={handleCloseModal} />
                     {!username ? (
                       <>
                         <Button size={'large'}>

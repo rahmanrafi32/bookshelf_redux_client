@@ -5,6 +5,7 @@ import Signup from '../pages/Signup.tsx';
 import Signin from '../pages/Signin.tsx';
 import BookDetails from '../pages/BookDetails.tsx';
 import EditBook from '../pages/EditBook.tsx';
+import AddNewBook from '../pages/AddNewBook.tsx';
 
 const routes = createBrowserRouter([
   {
