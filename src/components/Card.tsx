@@ -10,12 +10,12 @@ import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import { Grid, Tooltip } from '@mui/material';
 import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
-import {
-  addToReadBook,
-  addToWishlist,
-} from '../redux/features/wishlist/wishlistSlice.ts';
 import { Link } from 'react-router-dom';
-import { isFinished } from '../redux/features/books/bookSlice.ts';
+import {
+  addToWishlist,
+  isFinished,
+  isReading,
+} from '../redux/features/books/bookSlice.ts';
 
 type IProps = {
   book: {
@@ -57,8 +57,8 @@ const SingleCard = ({ book }: IProps) => {
           alignItems={'center'}
         >
           <Grid item>
-            <Button size="medium" onClick={() => dispatch(addToReadBook(book))}>
-              Read Book
+            <Button size="medium" onClick={() => dispatch(isReading(book.id))}>
+              {book.isReading ? 'Reading...' : 'Read book'}
             </Button>
           </Grid>
           <Grid item>

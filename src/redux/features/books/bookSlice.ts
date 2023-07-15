@@ -4,6 +4,7 @@ import { IBook } from '../../../types/book.ts';
 interface IState {
   singleBook: IBook;
   allBooks: IBook[];
+  wishListBook: IBook[];
 }
 
 const initialState: IState = {
@@ -17,6 +18,7 @@ const initialState: IState = {
     reviews: [],
   },
   allBooks: [],
+  wishListBook: [],
 };
 
 const bookSlice = createSlice({
@@ -33,10 +35,26 @@ const bookSlice = createSlice({
       const selectedBook = state.allBooks.find(
         (book) => book.id === action.payload
       );
-      selectedBook ? (selectedBook.isFinished = true) : null;
+      if (selectedBook) {
+        selectedBook.isFinished = true;
+        selectedBook.isReading = false;
+      }
+    },
+    isReading: (state, action) => {
+      const selectedBook = state.allBooks.find(
+        (book) => book.id === action.payload
+      );
+      if (selectedBook) {
+        selectedBook.isReading = true;
+        selectedBook.isFinished = false;
+      }
+    },
+    addToWishlist: (state, action) => {
+      state.wishListBook.push(action.payload);
     },
   },
 });
 
-export const { getAllBooks, booDetails, isFinished } = bookSlice.actions;
+export const { getAllBooks, booDetails, isFinished, isReading, addToWishlist } =
+  bookSlice.actions;
 export default bookSlice.reducer;
