@@ -124,7 +124,12 @@ const Navbar = () => {
                 component="div"
                 sx={{ display: { xs: 'none', md: 'block' } }}
               >
-                BookShelf
+                <Link
+                  style={{ textDecoration: 'none', color: '#fff' }}
+                  to={'/'}
+                >
+                  BookShelf
+                </Link>
               </Typography>
             </Grid>
             <Grid item xs={4}>

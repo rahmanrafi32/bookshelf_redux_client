@@ -4,6 +4,7 @@ import Home from '../pages/Home.tsx';
 import Signup from '../pages/Signup.tsx';
 import Signin from '../pages/Signin.tsx';
 import BookDetails from '../pages/BookDetails.tsx';
+import EditBook from '../pages/EditBook.tsx';
 
 const routes = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const routes = createBrowserRouter([
       {
         path: '/book-details/:id',
         element: <BookDetails />,
+      },
+      {
+        path: '/edit-book',
+        element: <EditBook />,
       },
     ],
   },

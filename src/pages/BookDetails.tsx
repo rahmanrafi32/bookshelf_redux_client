@@ -2,9 +2,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
   AlertColor,
   Avatar,
+  Box,
   Button,
   CircularProgress,
   Grid,
+  Modal,
   TextField,
   Typography,
 } from '@mui/material';
@@ -16,6 +18,8 @@ import {
 } from '../redux/features/books/booksApi.ts';
 import { ChangeEvent, useState } from 'react';
 import CustomSnackbar from '../components/CustomSnackbar.tsx';
+import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
+import { booDetails } from '../redux/features/books/bookSlice.ts';
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -26,6 +30,11 @@ const BookDetails = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<
     AlertColor | undefined
   >('success');
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const dispatch = useAppDispatch();
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
@@ -65,9 +74,9 @@ const BookDetails = () => {
     }
   };
 
-  const handleDeleteBook = async () => {
+  const handleConfirmButton = async () => {
     const response = await deleteBook(id);
-    if ('data' in response) {
+    if (response && 'data' in response) {
       const { data } = response;
       if (data.success === true) {
         navigate('/');
@@ -77,6 +86,16 @@ const BookDetails = () => {
         setSnackbarSeverity('error');
       }
     }
+    handleClose();
+  };
+
+  const handleDeleteBook = () => {
+    handleOpen();
+  };
+
+  const handleEditBook = () => {
+    dispatch(booDetails(book?.data));
+    navigate('/edit-book');
   };
 
   return (
@@ -115,7 +134,12 @@ const BookDetails = () => {
               <Typography sx={{ mt: 5 }} variant={'h6'}>
                 Publication Date: {book?.data.publicationDate}
               </Typography>
-              <Button sx={{ mt: 1 }} variant={'contained'} size={'large'}>
+              <Button
+                sx={{ mt: 1 }}
+                variant={'contained'}
+                size={'large'}
+                onClick={handleEditBook}
+              >
                 Edit Book
               </Button>
               <Button
@@ -181,6 +205,31 @@ const BookDetails = () => {
         snackbarMessage={snackbarMessage}
         snackbarSeverity={snackbarSeverity}
       />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you wanna delete this book?
+          </Typography>
+          <Button onClick={handleConfirmButton}>Confirm</Button>
+        </Box>
+      </Modal>
     </Grid>
   );
 };

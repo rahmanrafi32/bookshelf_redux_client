@@ -1,30 +1,21 @@
 import {
   AlertColor,
-  AlertProps,
   Button,
   Grid,
   Modal,
   Paper,
-  Snackbar,
-  Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import MuiAlert from '@mui/material/Alert';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAddBookMutation } from '../redux/features/books/booksApi.ts';
+import CustomSnackbar from './CustomSnackbar.tsx';
 
 type IProps = {
   open: boolean;
   handleClose: () => void;
 };
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  }
-);
 
 const AddBook = ({ open, handleClose }: IProps) => {
   const [bookData, setBookData] = useState({
@@ -71,7 +62,6 @@ const AddBook = ({ open, handleClose }: IProps) => {
         handleClickSnackbar(data.message, 'error');
       }
     }
-
     setBookData({
       title: '',
       author: '',
@@ -161,17 +151,12 @@ const AddBook = ({ open, handleClose }: IProps) => {
               Add Book
             </Button>
           </Grid>
-          <Stack spacing={2} sx={{ width: '60%' }}>
-            <Snackbar
-              open={openSnackbar}
-              autoHideDuration={2500}
-              onClose={handleCloseSnackbar}
-            >
-              <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
-                {snackbarMessage}
-              </Alert>
-            </Snackbar>
-          </Stack>
+          <CustomSnackbar
+            openSnackbar={openSnackbar}
+            handleCloseSnackbar={handleCloseSnackbar}
+            snackbarMessage={snackbarMessage}
+            snackbarSeverity={snackbarSeverity}
+          />
         </Grid>
       </Paper>
     </Modal>
