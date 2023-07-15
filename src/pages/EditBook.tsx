@@ -5,14 +5,14 @@ import { useEditBookMutation } from '../redux/features/books/booksApi.ts';
 import CustomSnackbar from '../components/CustomSnackbar.tsx';
 
 const EditBook = () => {
-  const { book } = useAppSelector((state) => state.book);
+  const { singleBook } = useAppSelector((state) => state.book);
   const [editBook] = useEditBookMutation();
   const [bookData, setBookData] = useState({
-    title: book.title,
-    author: book.author,
-    genre: book.genre,
-    bookCoverLink: book.cover,
-    publicationDate: book.publicationDate,
+    title: singleBook.title,
+    author: singleBook.author,
+    genre: singleBook.genre,
+    bookCoverLink: singleBook.cover,
+    publicationDate: singleBook.publicationDate,
   });
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -29,7 +29,7 @@ const EditBook = () => {
 
   const handleSubmitButton = async () => {
     const options = {
-      id: book.id,
+      id: singleBook.id,
       data: bookData,
     };
     const response = await editBook(options);

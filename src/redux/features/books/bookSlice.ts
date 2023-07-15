@@ -2,11 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IBook } from '../../../types/book.ts';
 
 interface IState {
-  book: IBook;
+  singleBook: IBook;
+  allBooks: IBook[];
 }
 
 const initialState: IState = {
-  book: {
+  singleBook: {
     id: '',
     title: '',
     author: '',
@@ -15,17 +16,27 @@ const initialState: IState = {
     publicationDate: '',
     reviews: [],
   },
+  allBooks: [],
 };
 
 const bookSlice = createSlice({
   name: 'book',
   initialState,
   reducers: {
+    getAllBooks: (state, action) => {
+      state.allBooks = action.payload;
+    },
     booDetails: (state, action) => {
-      state.book = action.payload;
+      state.singleBook = action.payload;
+    },
+    isFinished: (state, action) => {
+      const selectedBook = state.allBooks.find(
+        (book) => book.id === action.payload
+      );
+      selectedBook ? (selectedBook.isFinished = true) : null;
     },
   },
 });
 
-export const { booDetails } = bookSlice.actions;
+export const { getAllBooks, booDetails, isFinished } = bookSlice.actions;
 export default bookSlice.reducer;

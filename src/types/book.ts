@@ -6,4 +6,6 @@ export type IBook = {
   cover: string;
   publicationDate: string;
   reviews: string[];
+  isFinished?: boolean;
+  isReading?: boolean;
 };

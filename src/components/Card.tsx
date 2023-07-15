@@ -5,11 +5,17 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Grid } from '@mui/material';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
+import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
+import { Grid, Tooltip } from '@mui/material';
 import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
-import { addToWishlist } from '../redux/features/wishlist/wishlistSlice.ts';
+import {
+  addToReadBook,
+  addToWishlist,
+} from '../redux/features/wishlist/wishlistSlice.ts';
 import { Link } from 'react-router-dom';
+import { isFinished } from '../redux/features/books/bookSlice.ts';
 
 type IProps = {
   book: {
@@ -19,6 +25,8 @@ type IProps = {
     genre: string;
     cover: string;
     publicationDate: string;
+    isFinished?: boolean;
+    isReading?: boolean;
   };
 };
 const SingleCard = ({ book }: IProps) => {
@@ -27,7 +35,7 @@ const SingleCard = ({ book }: IProps) => {
     <Card sx={{ width: 350 }}>
       <Link
         style={{ textDecoration: 'none', color: '#000' }}
-        to={`/${book.id}`}
+        to={`/book-details/${book.id}`}
       >
         <CardMedia sx={{ height: 240 }} image={book.cover} title={book.title} />
         <CardContent>
@@ -49,13 +57,30 @@ const SingleCard = ({ book }: IProps) => {
           alignItems={'center'}
         >
           <Grid item>
-            <Button size="medium" onClick={() => dispatch(addToWishlist(book))}>
-              Add to Wishlist
+            <Button size="medium" onClick={() => dispatch(addToReadBook(book))}>
+              Read Book
             </Button>
           </Grid>
           <Grid item>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
+            <IconButton
+              aria-label="Add to wishlist"
+              onClick={() => dispatch(addToWishlist(book))}
+            >
+              <Tooltip title={'Add to wishlist'}>
+                <BookmarkAddIcon color={'primary'} />
+              </Tooltip>
+            </IconButton>
+            <IconButton
+              aria-label="Finished Reading"
+              onClick={() => dispatch(isFinished(book.id))}
+            >
+              <Tooltip title={'Finished Reading'}>
+                {book.isFinished ? (
+                  <DoneAllRoundedIcon color={'primary'} />
+                ) : (
+                  <DoneRoundedIcon color={'primary'} />
+                )}
+              </Tooltip>
             </IconButton>
           </Grid>
         </Grid>
