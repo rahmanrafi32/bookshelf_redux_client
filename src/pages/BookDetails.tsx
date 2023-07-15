@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   AlertColor,
   Avatar,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import {
   useAddBookReviewMutation,
+  useDeleteBookByIdMutation,
   useGetBookByIdQuery,
   useGetReviewByIdQuery,
 } from '../redux/features/books/booksApi.ts';
@@ -17,6 +18,8 @@ import { ChangeEvent, useState } from 'react';
 import CustomSnackbar from '../components/CustomSnackbar.tsx';
 
 const BookDetails = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [writeReview, setWriteReview] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -26,16 +29,14 @@ const BookDetails = () => {
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
-  const { id } = useParams();
 
   const { data: book, isLoading } = useGetBookByIdQuery(id);
-
-  const [addBookReview] = useAddBookReviewMutation();
-
   const { data } = useGetReviewByIdQuery(id, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
+  const [addBookReview] = useAddBookReviewMutation();
+  const [deleteBook] = useDeleteBookByIdMutation();
 
   const handleReview = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setWriteReview(target.value);
@@ -56,6 +57,20 @@ const BookDetails = () => {
         setOpenSnackbar(true);
         setSnackbarMessage(data.message);
         setSnackbarSeverity('success');
+      } else {
+        setOpenSnackbar(true);
+        setSnackbarMessage(data.message);
+        setSnackbarSeverity('error');
+      }
+    }
+  };
+
+  const handleDeleteBook = async () => {
+    const response = await deleteBook(id);
+    if ('data' in response) {
+      const { data } = response;
+      if (data.success === true) {
+        navigate('/');
       } else {
         setOpenSnackbar(true);
         setSnackbarMessage(data.message);
@@ -107,6 +122,7 @@ const BookDetails = () => {
                 sx={{ ml: 3, mt: 1 }}
                 variant={'contained'}
                 size={'large'}
+                onClick={handleDeleteBook}
               >
                 Delete Book
               </Button>
