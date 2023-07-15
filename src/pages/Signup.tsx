@@ -1,8 +1,40 @@
 import { Button, Grid, Stack, TextField, Typography } from '@mui/material';
 import signUpImage from '../assets/23186847_6736959.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
+import { setUser } from '../redux/features/user/userSlice.ts';
+import { useUserSignUpMutation } from '../redux/features/user/userApi.ts';
 
 const Signup = () => {
+  const [signupData, setSignUpData] = useState({
+    username: '',
+    confirmPassword: '',
+    password: '',
+  });
+  const [passwordError, setPasswordError] = useState('');
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [signUp] = useUserSignUpMutation();
+  const handleFieldChange = (field: string, value: string) => {
+    setSignUpData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+
+    if (field === 'confirmPassword' && value !== signupData.password) {
+      setPasswordError('Passwords do not match');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const handleSignUp = async () => {
+    await signUp(signupData);
+    dispatch(setUser(signupData.username));
+    navigate('/');
+  };
+
   return (
     <Grid
       container
@@ -34,10 +66,34 @@ const Signup = () => {
               alignItems="center"
               spacing={3}
             >
-              <TextField fullWidth placeholder={'Username'} />
-              <TextField fullWidth placeholder={'Password'} />
-              <TextField fullWidth placeholder={'Confirm Password'} />
-              <Button fullWidth variant="contained" size="large">
+              <TextField
+                fullWidth
+                placeholder={'Username'}
+                onChange={(e) => handleFieldChange('username', e.target.value)}
+              />
+              <TextField
+                fullWidth
+                type={'password'}
+                placeholder={'Password'}
+                onChange={(e) => handleFieldChange('password', e.target.value)}
+              />
+              <TextField
+                fullWidth
+                type={'password'}
+                placeholder={'Confirm Password'}
+                onChange={(e) =>
+                  handleFieldChange('confirmPassword', e.target.value)
+                }
+                error={!!passwordError}
+                helperText={passwordError}
+              />
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                disabled={!!passwordError}
+                onClick={handleSignUp}
+              >
                 Signup
               </Button>
               <Typography variant={'subtitle1'}>
