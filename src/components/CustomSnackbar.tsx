@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { AlertProps, Snackbar, Stack } from '@mui/material';
+import { AlertColor, AlertProps, Snackbar, Stack } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(
@@ -8,12 +8,19 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
   }
 );
 
+interface IProps {
+  openSnackbar: boolean;
+  handleCloseSnackbar: () => void;
+  snackbarMessage: string;
+  snackbarSeverity: AlertColor | undefined;
+}
+
 const CustomSnackbar = ({
   openSnackbar,
   handleCloseSnackbar,
   snackbarMessage,
   snackbarSeverity,
-}: any) => {
+}: IProps) => {
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar
