@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import {
+  AlertColor,
   Avatar,
   Button,
   CircularProgress,
-  Divider,
   Grid,
   TextField,
   Typography,
@@ -14,11 +14,18 @@ import {
   useGetReviewByIdQuery,
 } from '../redux/features/books/booksApi.ts';
 import { ChangeEvent, useState } from 'react';
-// import CustomSnackbar from '../components/CustomSnackbar.tsx';
+import CustomSnackbar from '../components/CustomSnackbar.tsx';
 
 const BookDetails = () => {
   const [writeReview, setWriteReview] = useState('');
-
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    AlertColor | undefined
+  >('success');
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
   const { id } = useParams();
 
   const { data: book, isLoading } = useGetBookByIdQuery(id);
@@ -30,8 +37,6 @@ const BookDetails = () => {
     pollingInterval: 30000,
   });
 
-  console.log(data?.data?.reviews);
-
   const handleReview = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setWriteReview(target.value);
   };
@@ -42,8 +47,21 @@ const BookDetails = () => {
       data: { reviews: writeReview },
     };
 
-    await addBookReview(options);
+    const response = await addBookReview(options);
     setWriteReview('');
+
+    if ('data' in response) {
+      const { data } = response;
+      if (data.success === true) {
+        setOpenSnackbar(true);
+        setSnackbarMessage(data.message);
+        setSnackbarSeverity('success');
+      } else {
+        setOpenSnackbar(true);
+        setSnackbarMessage(data.message);
+        setSnackbarSeverity('error');
+      }
+    }
   };
 
   return (
@@ -116,17 +134,13 @@ const BookDetails = () => {
           <Typography variant={'h6'} sx={{ ml: 3 }}>
             {review}
           </Typography>
-          <Divider
-            sx={{ mt: 4 }}
-            orientation={'horizontal'}
-            variant={'fullWidth'}
-          />
         </Grid>
       ))}
       <Grid item xs={12} sx={{ mt: 4 }}>
         <TextField
           fullWidth
           multiline
+          value={writeReview}
           rows={4}
           placeholder={'Write Review'}
           onChange={handleReview}
@@ -145,7 +159,12 @@ const BookDetails = () => {
           Submit
         </Button>
       </Grid>
-      {/*<CustomSnackbar />*/}
+      <CustomSnackbar
+        openSnackbar={openSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        snackbarMessage={snackbarMessage}
+        snackbarSeverity={snackbarSeverity}
+      />
     </Grid>
   );
 };

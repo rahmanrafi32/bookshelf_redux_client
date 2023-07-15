@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import { forwardRef } from 'react';
 import { AlertProps, Snackbar, Stack } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+const Alert = forwardRef<HTMLDivElement, AlertProps>(
   function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   }
 );
 
-const CustomSnackbar = () => {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
-
+const CustomSnackbar = ({
+  openSnackbar,
+  handleCloseSnackbar,
+  snackbarMessage,
+  snackbarSeverity,
+}: any) => {
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar
@@ -21,8 +21,8 @@ const CustomSnackbar = () => {
         autoHideDuration={2500}
         onClose={handleCloseSnackbar}
       >
-        <Alert onClose={handleCloseSnackbar} severity="success">
-          This is a success message!
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </Stack>
