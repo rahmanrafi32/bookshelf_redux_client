@@ -23,6 +23,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { Link, Outlet } from 'react-router-dom';
 import AddBook from './AddBook.tsx';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks.ts';
+import { logout } from '../redux/features/user/userSlice.ts';
 
 const drawerWidth = 240;
 const navItems = ['All Books', 'Sign In', 'Sign Up'];
@@ -76,6 +78,8 @@ const Navbar = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const { username } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -155,30 +159,44 @@ const Navbar = () => {
                         All Books
                       </Link>
                     </Button>
-                    <Button
-                      sx={{ color: '#fff' }}
-                      size={'large'}
-                      onClick={handleOpenModal}
-                    >
-                      Add New Book
-                    </Button>
+                    {username ? (
+                      <Button
+                        sx={{ color: '#fff' }}
+                        size={'large'}
+                        onClick={handleOpenModal}
+                      >
+                        Add New Book
+                      </Button>
+                    ) : null}
                     <AddBook open={open} handleClose={handleCloseModal} />
-                    <Button size={'large'}>
-                      <Link
-                        style={{ textDecoration: 'none', color: '#fff' }}
-                        to="/signin"
+                    {!username ? (
+                      <>
+                        <Button size={'large'}>
+                          <Link
+                            style={{ textDecoration: 'none', color: '#fff' }}
+                            to="/signin"
+                          >
+                            Sign In
+                          </Link>
+                        </Button>
+                        <Button size={'large'}>
+                          <Link
+                            style={{ textDecoration: 'none', color: '#fff' }}
+                            to="/signup"
+                          >
+                            Sign Up
+                          </Link>
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        style={{ color: '#fff' }}
+                        size={'large'}
+                        onClick={() => dispatch(logout())}
                       >
-                        Sign In
-                      </Link>
-                    </Button>
-                    <Button size={'large'}>
-                      <Link
-                        style={{ textDecoration: 'none', color: '#fff' }}
-                        to="/signup"
-                      >
-                        Sign Up
-                      </Link>
-                    </Button>
+                        Sign out
+                      </Button>
+                    )}
                   </Box>
                 </Grid>
               </Grid>

@@ -1,8 +1,33 @@
 import { Button, Grid, Stack, TextField, Typography } from '@mui/material';
 import signUpImage from '../assets/23186847_6736959.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useUserSignInMutation } from '../redux/features/user/userApi.ts';
+import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
+import { setUser } from '../redux/features/user/userSlice.ts';
 
 const Signin = () => {
+  const [loginData, setLoginData] = useState({
+    username: '',
+    password: '',
+  });
+  const dispatch = useAppDispatch();
+  const [login] = useUserSignInMutation();
+  const navigate = useNavigate();
+  const handleFieldChange = (field: string, value: string) => {
+    setLoginData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+  const handleLogin = async () => {
+    await login(loginData);
+    console.log(loginData.username);
+    dispatch(setUser(loginData.username));
+    navigate('/');
+  };
+
   return (
     <Grid
       container
@@ -34,9 +59,24 @@ const Signin = () => {
               alignItems="center"
               spacing={3}
             >
-              <TextField fullWidth placeholder={'Username'} />
-              <TextField fullWidth placeholder={'Password'} />
-              <Button fullWidth variant="contained" size="large">
+              <TextField
+                value={loginData.username}
+                fullWidth
+                label={'Username'}
+                onChange={(e) => handleFieldChange('username', e.target.value)}
+              />
+              <TextField
+                value={loginData.password}
+                fullWidth
+                label={'Password'}
+                onChange={(e) => handleFieldChange('password', e.target.value)}
+              />
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                onClick={handleLogin}
+              >
                 Sign In
               </Button>
               <Typography>
