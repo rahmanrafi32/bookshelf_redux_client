@@ -30,9 +30,9 @@ const Navbar = () => {
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
   const { username } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -96,7 +96,7 @@ const Navbar = () => {
               <Grid container direction="row" justifyContent="flex-end">
                 <Grid item>
                   <Box>
-                    <Button size={'large'}>
+                    <Button>
                       <Link
                         style={{ textDecoration: 'none', color: '#fff' }}
                         to="/"
@@ -104,8 +104,16 @@ const Navbar = () => {
                         All Books
                       </Link>
                     </Button>
+                    <Button>
+                      <Link
+                        style={{ textDecoration: 'none', color: '#fff' }}
+                        to="/wishlist"
+                      >
+                        Wishlists
+                      </Link>
+                    </Button>
                     {username ? (
-                      <Button sx={{ color: '#fff' }} size={'large'}>
+                      <Button sx={{ color: '#fff' }}>
                         <Link
                           style={{ textDecoration: 'none', color: '#fff' }}
                           to={'/add-new-book'}
@@ -116,7 +124,7 @@ const Navbar = () => {
                     ) : null}
                     {!username ? (
                       <>
-                        <Button size={'large'}>
+                        <Button>
                           <Link
                             style={{ textDecoration: 'none', color: '#fff' }}
                             to="/signin"
@@ -124,7 +132,7 @@ const Navbar = () => {
                             Sign In
                           </Link>
                         </Button>
-                        <Button size={'large'}>
+                        <Button>
                           <Link
                             style={{ textDecoration: 'none', color: '#fff' }}
                             to="/signup"
@@ -136,7 +144,6 @@ const Navbar = () => {
                     ) : (
                       <Button
                         style={{ color: '#fff' }}
-                        size={'large'}
                         onClick={() => dispatch(logout())}
                       >
                         Sign out

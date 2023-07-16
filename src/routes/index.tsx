@@ -7,6 +7,7 @@ import BookDetails from '../pages/BookDetails.tsx';
 import EditBook from '../pages/EditBook.tsx';
 import AddNewBook from '../pages/AddNewBook.tsx';
 import ProtectedRoute from './ProtectedRoute.tsx';
+import Wishlist from '../pages/Wishlist.tsx';
 
 const routes = createBrowserRouter([
   {
@@ -23,7 +24,11 @@ const routes = createBrowserRouter([
       },
       {
         path: '/add-new-book',
-        element: <AddNewBook />,
+        element: (
+          <ProtectedRoute>
+            <AddNewBook />
+          </ProtectedRoute>
+        ),
       },
       {
         path: '/edit-book',
@@ -32,6 +37,10 @@ const routes = createBrowserRouter([
             <EditBook />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: '/wishlist',
+        element: <Wishlist />,
       },
     ],
   },
