@@ -160,6 +160,9 @@ const BookDetails = () => {
           Reviews:
         </Typography>
       </Grid>
+      {data?.data?.reviews.length <= 0 ? (
+        <Typography variant={'h6'}>This book has no reviews yet.</Typography>
+      ) : null}
       {data?.data?.reviews.map((review: string) => (
         <Grid
           item
