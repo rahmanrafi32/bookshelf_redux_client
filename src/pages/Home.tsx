@@ -4,7 +4,7 @@ import Filter from '../components/Filter.tsx';
 
 const Home = () => {
   return (
-    <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Grid container>
       <Grid item xs={2}>
         <Filter />
       </Grid>

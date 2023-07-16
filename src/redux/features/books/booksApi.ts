@@ -3,7 +3,15 @@ import { api } from '../../api/apiSlice.ts';
 const booksApi = api.injectEndpoints({
   endpoints: (build) => ({
     getAllBooks: build.query({
-      query: () => '/books/',
+      query: (arg) => {
+        const publicationDate = arg?.publicationDate;
+        const genre = arg?.genre;
+        const searchTerm = arg?.searchTerm;
+        return {
+          url: '/books/',
+          params: { publicationDate, genre, searchTerm },
+        };
+      },
       providesTags: ['books'],
     }),
     getBookById: build.query({

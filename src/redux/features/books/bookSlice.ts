@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IBook } from '../../../types/book.ts';
 
+interface IFilter {
+  genre: string | null;
+  publicationDate: string | null;
+  searchTerm: string | null;
+}
 interface IState {
   singleBook: IBook;
   allBooks: IBook[];
   wishListBook: IBook[];
+  filterOptions: IFilter;
 }
 
 const initialState: IState = {
@@ -19,6 +25,11 @@ const initialState: IState = {
   },
   allBooks: [],
   wishListBook: [],
+  filterOptions: {
+    genre: null,
+    publicationDate: null,
+    searchTerm: null,
+  },
 };
 
 const bookSlice = createSlice({
@@ -52,9 +63,21 @@ const bookSlice = createSlice({
     addToWishlist: (state, action) => {
       state.wishListBook.push(action.payload);
     },
+    filterOptions: (state, action) => {
+      const { genre, publicationYear, searchTerm } = action.payload;
+      state.filterOptions.genre = genre;
+      state.filterOptions.publicationDate = publicationYear;
+      state.filterOptions.searchTerm = searchTerm;
+    },
   },
 });
 
-export const { getAllBooks, booDetails, isFinished, isReading, addToWishlist } =
-  bookSlice.actions;
+export const {
+  getAllBooks,
+  booDetails,
+  isFinished,
+  isReading,
+  filterOptions,
+  addToWishlist,
+} = bookSlice.actions;
 export default bookSlice.reducer;

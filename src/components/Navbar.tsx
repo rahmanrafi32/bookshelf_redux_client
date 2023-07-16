@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  alpha,
   AppBar,
   Box,
   Button,
@@ -9,65 +8,23 @@ import {
   Drawer,
   Grid,
   IconButton,
-  InputBase,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  styled,
   Toolbar,
   Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 
 import { Link, Outlet } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks.ts';
 import { logout } from '../redux/features/user/userSlice.ts';
+import CustomSearch from './CustomSearch.tsx';
 
 const drawerWidth = 240;
 const navItems = ['All Books', 'Sign In', 'Sign Up'];
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: 'auto',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '30ch',
-      '&:focus': {
-        width: '50ch',
-      },
-    },
-  },
-}));
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const handleDrawerToggle = () => {
@@ -133,15 +90,7 @@ const Navbar = () => {
               </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </Search>
+              <CustomSearch />
             </Grid>
             <Grid item xs={4} sx={{ display: { xs: 'none', md: 'block' } }}>
               <Grid container direction="row" justifyContent="flex-end">
@@ -219,7 +168,7 @@ const Navbar = () => {
           {drawer}
         </Drawer>
       </Box>
-      <Box component="main" sx={{ p: 3 }}>
+      <Box component="main" sx={{ p: 3, width: '100vw' }}>
         <Toolbar />
         <Outlet />
       </Box>

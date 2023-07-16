@@ -7,7 +7,10 @@ import { useEffect } from 'react';
 import { getAllBooks } from '../redux/features/books/bookSlice.ts';
 
 const AllBooks = () => {
-  const { data } = useGetAllBooksQuery(undefined);
+  const { genre, publicationDate, searchTerm } = useAppSelector(
+    (state) => state.book.filterOptions
+  );
+  const { data } = useGetAllBooksQuery({ publicationDate, genre, searchTerm });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
