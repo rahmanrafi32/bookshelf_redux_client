@@ -6,6 +6,7 @@ import Signin from '../pages/Signin.tsx';
 import BookDetails from '../pages/BookDetails.tsx';
 import EditBook from '../pages/EditBook.tsx';
 import AddNewBook from '../pages/AddNewBook.tsx';
+import ProtectedRoute from './ProtectedRoute.tsx';
 
 const routes = createBrowserRouter([
   {
@@ -26,7 +27,11 @@ const routes = createBrowserRouter([
       },
       {
         path: '/edit-book',
-        element: <EditBook />,
+        element: (
+          <ProtectedRoute>
+            <EditBook />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
