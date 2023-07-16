@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
-import { Grid, Tooltip } from '@mui/material';
+import { AlertColor, Grid, Tooltip } from '@mui/material';
 import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
 import { Link } from 'react-router-dom';
 import {
@@ -16,6 +16,8 @@ import {
   isFinished,
   isReading,
 } from '../redux/features/books/bookSlice.ts';
+import CustomSnackbar from './CustomSnackbar.tsx';
+import { useState } from 'react';
 
 type IProps = {
   book: {
@@ -30,7 +32,22 @@ type IProps = {
   };
 };
 const SingleCard = ({ book }: IProps) => {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    AlertColor | undefined
+  >('success');
   const dispatch = useAppDispatch();
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleWishlist = () => {
+    dispatch(addToWishlist(book));
+    setOpenSnackbar(true);
+    setSnackbarMessage('Whishlist added');
+    setSnackbarSeverity('success');
+  };
   return (
     <Card sx={{ width: 350 }}>
       <Link
@@ -62,10 +79,7 @@ const SingleCard = ({ book }: IProps) => {
             </Button>
           </Grid>
           <Grid item>
-            <IconButton
-              aria-label="Add to wishlist"
-              onClick={() => dispatch(addToWishlist(book))}
-            >
+            <IconButton aria-label="Add to wishlist" onClick={handleWishlist}>
               <Tooltip title={'Add to wishlist'}>
                 <BookmarkAddIcon color={'primary'} />
               </Tooltip>
@@ -85,6 +99,12 @@ const SingleCard = ({ book }: IProps) => {
           </Grid>
         </Grid>
       </CardActions>
+      <CustomSnackbar
+        openSnackbar={openSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        snackbarMessage={snackbarMessage}
+        snackbarSeverity={snackbarSeverity}
+      />
     </Card>
   );
 };
