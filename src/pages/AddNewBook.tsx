@@ -2,14 +2,17 @@ import { AlertColor, Button, Grid, TextField, Typography } from '@mui/material';
 import CustomSnackbar from '../components/CustomSnackbar.tsx';
 import { useAddBookMutation } from '../redux/features/books/booksApi.ts';
 import { useState } from 'react';
+import { useAppSelector } from '../hooks/reduxTypedHooks.ts';
 
 const AddNewBook = () => {
+  const { username } = useAppSelector((state) => state.user);
   const [bookData, setBookData] = useState({
     title: '',
     author: '',
     genre: '',
     bookCoverLink: '',
     publicationDate: '',
+    user: username,
   });
   const [addNewBook] = useAddBookMutation();
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -46,6 +49,7 @@ const AddNewBook = () => {
       genre: '',
       bookCoverLink: '',
       publicationDate: '',
+      user: null,
     });
   };
 

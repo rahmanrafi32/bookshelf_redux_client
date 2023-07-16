@@ -44,6 +44,10 @@ const EditBook = () => {
         setSnackbarMessage(data.message);
         setSnackbarSeverity('error');
       }
+    } else {
+      setOpenSnackbar(true);
+      setSnackbarMessage('UNAUTHORIZED');
+      setSnackbarSeverity('error');
     }
   };
 

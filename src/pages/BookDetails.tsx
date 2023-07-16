@@ -90,6 +90,10 @@ const BookDetails = () => {
         setSnackbarMessage(data.message);
         setSnackbarSeverity('error');
       }
+    } else {
+      setOpenSnackbar(true);
+      setSnackbarMessage('UNAUTHORIZED');
+      setSnackbarSeverity('error');
     }
     handleClose();
   };
@@ -139,22 +143,26 @@ const BookDetails = () => {
               <Typography sx={{ mt: 5 }} variant={'h6'}>
                 Publication Date: {book?.data.publicationDate}
               </Typography>
-              <Button
-                sx={{ mt: 1 }}
-                variant={'contained'}
-                size={'large'}
-                onClick={handleEditBook}
-              >
-                Edit Book
-              </Button>
-              <Button
-                sx={{ ml: 3, mt: 1 }}
-                variant={'contained'}
-                size={'large'}
-                onClick={handleDeleteBook}
-              >
-                Delete Book
-              </Button>
+              {username ? (
+                <>
+                  <Button
+                    sx={{ mt: 1 }}
+                    variant={'contained'}
+                    size={'large'}
+                    onClick={handleEditBook}
+                  >
+                    Edit Book
+                  </Button>
+                  <Button
+                    sx={{ ml: 3, mt: 1 }}
+                    variant={'contained'}
+                    size={'large'}
+                    onClick={handleDeleteBook}
+                  >
+                    Delete Book
+                  </Button>
+                </>
+              ) : null}
             </Grid>
           </Grid>
         </Grid>

@@ -1,12 +1,25 @@
-import { Button, Grid, Stack, TextField, Typography } from '@mui/material';
+import {
+  AlertColor,
+  Button,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import signUpImage from '../assets/23186847_6736959.jpg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useUserSignInMutation } from '../redux/features/user/userApi.ts';
 import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
 import { setUser } from '../redux/features/user/userSlice.ts';
+import CustomSnackbar from '../components/CustomSnackbar.tsx';
 
 const Signin = () => {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    AlertColor | undefined
+  >('success');
   const [loginData, setLoginData] = useState({
     username: '',
     password: '',
@@ -20,11 +33,26 @@ const Signin = () => {
       [field]: value,
     }));
   };
-
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
   const handleLogin = async () => {
-    await login(loginData);
-    dispatch(setUser(loginData.username));
-    navigate('/');
+    const res = await login(loginData);
+
+    if ('data' in res) {
+      const { data } = res;
+      dispatch(
+        setUser({
+          username: loginData.username,
+          accessToken: data?.data?.accessToken,
+        })
+      );
+      navigate('/');
+    } else {
+      setOpenSnackbar(true);
+      setSnackbarMessage('Incorrect Credentials');
+      setSnackbarSeverity('error');
+    }
   };
 
   return (
@@ -86,6 +114,12 @@ const Signin = () => {
           </Grid>
         </Grid>
       </Grid>
+      <CustomSnackbar
+        openSnackbar={openSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        snackbarMessage={snackbarMessage}
+        snackbarSeverity={snackbarSeverity}
+      />
     </Grid>
   );
 };
