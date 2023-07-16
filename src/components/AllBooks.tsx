@@ -28,7 +28,7 @@ const AllBooks = () => {
           md={4}
           sx={{ display: 'flex', justifyContent: 'center' }}
         >
-          <SingleCard book={book} />
+          <SingleCard wishlisted={false} book={book} />
         </Grid>
       ))}
     </Grid>

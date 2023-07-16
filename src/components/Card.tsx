@@ -30,8 +30,9 @@ type IProps = {
     isFinished?: boolean;
     isReading?: boolean;
   };
+  wishlisted: boolean;
 };
-const SingleCard = ({ book }: IProps) => {
+const SingleCard = ({ book, wishlisted }: IProps) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<
@@ -79,11 +80,13 @@ const SingleCard = ({ book }: IProps) => {
             </Button>
           </Grid>
           <Grid item>
-            <IconButton aria-label="Add to wishlist" onClick={handleWishlist}>
-              <Tooltip title={'Add to wishlist'}>
-                <BookmarkAddIcon color={'primary'} />
-              </Tooltip>
-            </IconButton>
+            {!wishlisted ? (
+              <IconButton aria-label="Add to wishlist" onClick={handleWishlist}>
+                <Tooltip title={'Add to wishlist'}>
+                  <BookmarkAddIcon color={'primary'} />
+                </Tooltip>
+              </IconButton>
+            ) : null}
             <IconButton
               aria-label="Finished Reading"
               onClick={() => dispatch(isFinished(book.id))}

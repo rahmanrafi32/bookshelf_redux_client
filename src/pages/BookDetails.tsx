@@ -40,7 +40,11 @@ const BookDetails = () => {
     setOpenSnackbar(false);
   };
 
-  const { data: book, isLoading } = useGetBookByIdQuery(id);
+  const { data: book, isLoading } = useGetBookByIdQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 10000,
+  });
+
   const { data } = useGetReviewByIdQuery(id, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,

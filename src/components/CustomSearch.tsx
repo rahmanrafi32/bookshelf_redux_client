@@ -62,7 +62,7 @@ const CustomSearch = () => {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder="Search by Title or Author"
+        placeholder="Search by Title, Author or Genre"
         inputProps={{ 'aria-label': 'search' }}
         onChange={handleSearchInput}
       />
