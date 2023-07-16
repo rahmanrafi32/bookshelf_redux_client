@@ -12,9 +12,9 @@ import { AlertColor, Grid, Tooltip } from '@mui/material';
 import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
 import { Link } from 'react-router-dom';
 import {
+  addReadList,
   addToWishlist,
   isFinished,
-  isReading,
 } from '../redux/features/books/bookSlice.ts';
 import CustomSnackbar from './CustomSnackbar.tsx';
 import { useState } from 'react';
@@ -49,6 +49,13 @@ const SingleCard = ({ book, wishlisted }: IProps) => {
     setSnackbarMessage('Whishlist added');
     setSnackbarSeverity('success');
   };
+
+  const handleReadingList = () => {
+    dispatch(addReadList(book));
+    setOpenSnackbar(true);
+    setSnackbarMessage('Book added to reading list');
+    setSnackbarSeverity('success');
+  };
   return (
     <Card sx={{ width: 350 }}>
       <Link
@@ -75,7 +82,7 @@ const SingleCard = ({ book, wishlisted }: IProps) => {
           alignItems={'center'}
         >
           <Grid item>
-            <Button size="medium" onClick={() => dispatch(isReading(book.id))}>
+            <Button size="medium" onClick={handleReadingList}>
               {book.isReading ? 'Reading...' : 'Read book'}
             </Button>
           </Grid>

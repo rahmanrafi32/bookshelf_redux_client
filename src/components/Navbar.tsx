@@ -104,23 +104,33 @@ const Navbar = () => {
                         All Books
                       </Link>
                     </Button>
-                    <Button>
-                      <Link
-                        style={{ textDecoration: 'none', color: '#fff' }}
-                        to="/wishlist"
-                      >
-                        Wishlists
-                      </Link>
-                    </Button>
                     {username ? (
-                      <Button sx={{ color: '#fff' }}>
-                        <Link
-                          style={{ textDecoration: 'none', color: '#fff' }}
-                          to={'/add-new-book'}
-                        >
-                          Add New Book
-                        </Link>
-                      </Button>
+                      <>
+                        <Button>
+                          <Link
+                            style={{ textDecoration: 'none', color: '#fff' }}
+                            to="/wishlist"
+                          >
+                            Wishlists
+                          </Link>
+                        </Button>
+                        <Button sx={{ color: '#fff' }}>
+                          <Link
+                            style={{ textDecoration: 'none', color: '#fff' }}
+                            to={'/add-new-book'}
+                          >
+                            Add New Book
+                          </Link>
+                        </Button>
+                        <Button>
+                          <Link
+                            style={{ textDecoration: 'none', color: '#fff' }}
+                            to="/readinglist"
+                          >
+                            Reading List
+                          </Link>
+                        </Button>
+                      </>
                     ) : null}
                     {!username ? (
                       <>

@@ -11,6 +11,7 @@ interface IState {
   allBooks: IBook[];
   wishListBook: IBook[];
   filterOptions: IFilter;
+  readingList: IBook[];
 }
 
 const initialState: IState = {
@@ -25,6 +26,7 @@ const initialState: IState = {
   },
   allBooks: [],
   wishListBook: [],
+  readingList: [],
   filterOptions: {
     genre: null,
     publicationDate: null,
@@ -69,6 +71,9 @@ const bookSlice = createSlice({
       state.filterOptions.publicationDate = publicationYear;
       state.filterOptions.searchTerm = searchTerm;
     },
+    addReadList: (state, action) => {
+      state.readingList.push(action.payload);
+    },
   },
 });
 
@@ -79,5 +84,6 @@ export const {
   isReading,
   filterOptions,
   addToWishlist,
+  addReadList,
 } = bookSlice.actions;
 export default bookSlice.reducer;
