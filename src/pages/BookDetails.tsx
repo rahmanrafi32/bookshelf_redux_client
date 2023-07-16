@@ -18,7 +18,7 @@ import {
 } from '../redux/features/books/booksApi.ts';
 import { ChangeEvent, useState } from 'react';
 import CustomSnackbar from '../components/CustomSnackbar.tsx';
-import { useAppDispatch } from '../hooks/reduxTypedHooks.ts';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks.ts';
 import { booDetails } from '../redux/features/books/bookSlice.ts';
 
 const BookDetails = () => {
@@ -35,6 +35,7 @@ const BookDetails = () => {
   const handleClose = () => setOpen(false);
 
   const dispatch = useAppDispatch();
+  const { username } = useAppSelector((state) => state.user);
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
@@ -176,29 +177,33 @@ const BookDetails = () => {
           </Typography>
         </Grid>
       ))}
-      <Grid item xs={12} sx={{ mt: 4 }}>
-        <TextField
-          fullWidth
-          multiline
-          value={writeReview}
-          rows={4}
-          placeholder={'Write Review'}
-          onChange={handleReview}
-        />
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}
-      >
-        <Button
-          variant={'contained'}
-          size={'large'}
-          onClick={handleReviewSubmit}
-        >
-          Submit
-        </Button>
-      </Grid>
+      {username ? (
+        <>
+          <Grid item xs={12} sx={{ mt: 4 }}>
+            <TextField
+              fullWidth
+              multiline
+              value={writeReview}
+              rows={4}
+              placeholder={'Write Review'}
+              onChange={handleReview}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}
+          >
+            <Button
+              variant={'contained'}
+              size={'large'}
+              onClick={handleReviewSubmit}
+            >
+              Submit
+            </Button>
+          </Grid>
+        </>
+      ) : null}
       <CustomSnackbar
         openSnackbar={openSnackbar}
         handleCloseSnackbar={handleCloseSnackbar}
