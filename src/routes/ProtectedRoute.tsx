@@ -10,9 +10,7 @@ export default function ProtectedRoute({ children }: IProps) {
     localStorage.getItem('auth') as string
   );
   const { pathname } = useLocation();
-
   if (!userData) {
-    console.log('here');
     return <Navigate to="/signin" state={{ path: pathname }} />;
   }
 

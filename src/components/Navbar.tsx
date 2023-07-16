@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxTypedHooks.ts';
 import { logout } from '../redux/features/user/userSlice.ts';
 import CustomSearch from './CustomSearch.tsx';
@@ -27,12 +27,12 @@ const navItems = ['All Books', 'Sign In', 'Sign Up'];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const { pathname } = useLocation();
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
   const { username } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -156,7 +156,12 @@ const Navbar = () => {
                         style={{ color: '#fff' }}
                         onClick={() => dispatch(logout())}
                       >
-                        Sign out
+                        <Link
+                          style={{ textDecoration: 'none', color: '#fff' }}
+                          to={pathname === '/' ? '/' : '/signin'}
+                        >
+                          Sign out
+                        </Link>
                       </Button>
                     )}
                   </Box>
